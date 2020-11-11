@@ -8,7 +8,7 @@ public class Runner extends DBDemo {
 			boolean flag=true;
 			while(flag) {
 				System.out.println("------MENU------");
-				System.out.println("1.Create_Table 2.Drop_Table 3.Insert 4.Exit");
+				System.out.println("1.Create_Table 2.Drop_Table 3.Insert 4.Display 5.Exit");
 				option=sc.nextInt();
 				switch(option) {
 				case 1:
@@ -21,6 +21,9 @@ public class Runner extends DBDemo {
 					r.insert();
 					break;
 				case 4:
+					r.display();
+					break;
+				case 5:
 					flag=false;
 					break;
 				default:

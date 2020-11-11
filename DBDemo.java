@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
@@ -127,6 +128,31 @@ public class DBDemo {
 			System.out.println("Inserted Successfully in table: "+this.tableName);
 		} catch (SQLException e) {
 			System.out.println("ERROR: Could not insert into the table");
+			e.printStackTrace();
+			return;
+		}
+	}
+	
+	public void display() {
+		Connection conn = run();
+		try {
+			String displayString = "SELECT * FROM " + this.tableName;
+			//this.executeUpdate(conn, displayString);
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(displayString);
+			System.out.println("id   name \t street  city \t state \t zip");
+			while(rs.next()) {
+				int id=rs.getInt("id");
+				String name,street,city,state,zip;
+				name = rs.getString("name");
+				street = rs.getString("street");
+				city = rs.getString("city");
+				state = rs.getString("state");
+				zip = rs.getString("zip");
+				System.out.println(id+"   "+name+"\t"+street+"\t"+city+"\t"+state+"\t"+zip);
+			}
+		} catch (SQLException e) {
+			System.out.println("ERROR: Could not display the table contents");
 			e.printStackTrace();
 			return;
 		}
