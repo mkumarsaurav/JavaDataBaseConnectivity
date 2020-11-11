@@ -3,10 +3,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
+import java.util.Scanner;
+
 
 
 public class DBDemo {
 
+	private Scanner sc = new Scanner(System.in);
+	
 	/** The name of the MySQL account to use */
 	private final String userName = "root";
 
@@ -70,12 +74,12 @@ public class DBDemo {
 
 	public void create_table() {
 		// Create a table
-		Connection conn=null;
-		conn=run();
+		Connection conn = null;
+		conn = run();
 		try {
 			String createString = "CREATE TABLE " + this.tableName + " ( " + "ID INTEGER NOT NULL, "
 					+ "NAME varchar(40) NOT NULL, " + "STREET varchar(40) NOT NULL, " + "CITY varchar(20) NOT NULL, "
-					+ "STATE varchar(20) NOT NULL, " + "ZIP varchar(5), " + "PRIMARY KEY (ID))";
+					+ "STATE varchar(20) NOT NULL, " + "ZIP varchar(6), " + "PRIMARY KEY (ID))";
 			this.executeUpdate(conn, createString);
 			System.out.println("Created a table");
 		} catch (SQLException e) {
@@ -84,17 +88,45 @@ public class DBDemo {
 			return;
 		}
 	}
-	
+
 	public void drop_table() {
 		// Drop the table
-		Connection conn=null;
-		conn=run();
+		Connection conn = null;
+		conn = run();
 		try {
 			String dropString = "DROP TABLE " + this.tableName;
 			this.executeUpdate(conn, dropString);
 			System.out.println("Dropped the table");
 		} catch (SQLException e) {
 			System.out.println("ERROR: Could not drop the table");
+			e.printStackTrace();
+			return;
+		}
+	}
+
+	public void insert() {
+		Connection conn = run();
+		int id;
+		String name,street,city,state,zip;
+		System.out.println("Enter id:");
+		id=sc.nextInt();
+		sc.nextLine();                            // (For consuming the "\n" character)
+		System.out.println("Enter Name:");
+		name=sc.nextLine();
+		System.out.println("Enter Street:");
+		street=sc.nextLine();
+		System.out.println("Enter City:");
+		city=sc.nextLine();
+		System.out.println("Enter State:");
+		state=sc.nextLine();
+		System.out.println("Enter ZIP:"); 
+		zip=sc.nextLine();
+		try {
+			String insertString = "INSERT INTO " + this.tableName + " VALUES ('"+id+"','"+name+"','"+street+"','"+city+"','"+state+"','"+zip+"')";
+			this.executeUpdate(conn, insertString);
+			System.out.println("Inserted Successfully in table: "+this.tableName);
+		} catch (SQLException e) {
+			System.out.println("ERROR: Could not insert into the table");
 			e.printStackTrace();
 			return;
 		}
